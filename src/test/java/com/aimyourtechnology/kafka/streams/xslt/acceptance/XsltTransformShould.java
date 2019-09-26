@@ -37,7 +37,7 @@ public class XsltTransformShould {
     protected static final KafkaContainer KAFKA_CONTAINER = new KafkaContainer("5.3.0").withEmbeddedZookeeper()
                                                                                        .waitingFor(Wait.forLogMessage(".*Launching kafka.*\\n", 1))
                                                                                        .waitingFor(Wait.forLogMessage(".*started.*\\n", 1));
-    private static final String INPUT_TOPIC = "jsonInput";
+    private static final String INPUT_TOPIC = "xmlInput";
     private static final String OUTPUT_TOPIC = "xmlOutput";
     private static final String XSLT_TOPIC = "xslt";
     private static final String ENV_KEY_KAFKA_BROKER_SERVER = "KAFKA_BROKER_SERVER";
@@ -134,9 +134,8 @@ public class XsltTransformShould {
     private void writeXsltToXsltTopic() {
         try {
             getStringStringKafkaProducer().send(createProducerRecord(XSLT_TOPIC, XSLT_NAME, createXsltMessage())).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
+            fail("Unable to write Xslt to XSLT Topic:", e);
             e.printStackTrace();
         }
     }
@@ -173,9 +172,8 @@ public class XsltTransformShould {
     private void writeXmlToInputTopic() {
         try {
             getStringStringKafkaProducer().send(createProducerRecord(INPUT_TOPIC, xmlKey, createXmlMessage())).get();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
+        } catch (InterruptedException | ExecutionException e) {
+            fail("Unable to write Xml to Input Topic:", e);
             e.printStackTrace();
         }
     }
@@ -208,9 +206,6 @@ public class XsltTransformShould {
         Spliterator<ConsumerRecord<String, String>> spliterator = Spliterators.spliteratorUnknownSize(consumerRecords.iterator(), 0);
         Stream<ConsumerRecord<String, String>> consumerRecordStream = StreamSupport.stream(spliterator, false);
         return consumerRecordStream.findAny();
-        //        Optional<ConsumerRecord<String, String>> expectedConsumerRecord = consumerRecordStream.filter(cr -> foundExpectedRecord(cr.key()))
-
-//        return null;
     }
 
     private ConsumerRecords<String, String> pollForResults() {
