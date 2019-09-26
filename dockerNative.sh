@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+docker run -i --rm --network=sns2-system-tests_default -e APP_NAME=xsltKnitwareConverter -e KAFKA_BROKER_SERVER=sns2-system-tests_kafka01.internal-service_1 -e KAFKA_BROKER_PORT=9092 -e XSLT_NAME=knitwareModifyVoip.xslt -e XSLT_KAFKA_TOPIC=xslt -e INPUT_KAFKA_TOPIC=incoming.op.msgs -e OUTPUT_KAFKA_TOPIC=modify.op.msgs aytl/xslt-kafka-streams /work/application -Dquarkus.http.host=0.0.0.0 -Xmx48m
