@@ -50,7 +50,7 @@ public class XsltTransformShould {
             .withNetwork(KAFKA_CONTAINER.getNetwork())
             .withEnv(calculateEnvProperties())
             .waitingFor(Wait.forLogMessage(".*Stream manager initializing.*\\n", 1))
-            .waitingFor(Wait.forLogMessage(".*Quarkus .* started.*\\n", 1));
+            .waitingFor(Wait.forLogMessage(".*Subscribed to topic.*xslt.*\\n", 1));
     private String xmlKey = UUID.randomUUID().toString();
     private String randomValue = UUID.randomUUID().toString();
 
@@ -195,7 +195,6 @@ public class XsltTransformShould {
         XmlAssert.assertThat(resultingMessagePayload).and(createTransformedXmlMessage())
                  .ignoreWhitespace()
                  .areIdentical();
-
     }
 
     private Optional<ConsumerRecord<String, String>> readFromOutputTopic() {
@@ -210,17 +209,14 @@ public class XsltTransformShould {
 
     private ConsumerRecords<String, String> pollForResults() {
         KafkaConsumer<String, String> consumer = createKafkaConsumer();
+        consumer.subscribe(Collections.singletonList(OUTPUT_TOPIC));
         Duration duration = Duration.ofSeconds(4);
         return consumer.poll(duration);
     }
 
     private KafkaConsumer<String, String> createKafkaConsumer() {
         Properties props = getConsumerProperties();
-        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-        consumer.subscribe(Collections.singletonList(OUTPUT_TOPIC));
-        Duration immediately = Duration.ofSeconds(0);
-        consumer.poll(immediately);
-        return consumer;
+        return new KafkaConsumer<>(props);
     }
 
     private Properties getConsumerProperties() {
