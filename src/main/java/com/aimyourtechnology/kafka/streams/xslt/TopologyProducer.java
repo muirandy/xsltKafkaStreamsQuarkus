@@ -21,10 +21,9 @@ public class TopologyProducer {
     private String outputTopic;
     private KafkaStreams streams;
 
-    public TopologyProducer(String bootstrapServers, String appName, String xslt, String inputTopic, String outputTopic) {
+    public TopologyProducer(String bootstrapServers, String appName, String inputTopic, String outputTopic) {
         this.bootstrapServers = bootstrapServers;
         this.appName = appName;
-        this.xslt = xslt;
         this.inputTopic = inputTopic;
         this.outputTopic = outputTopic;
     }

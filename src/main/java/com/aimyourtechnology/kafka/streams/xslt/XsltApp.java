@@ -39,7 +39,8 @@ public class XsltApp {
     void onStart(@Observes StartupEvent event) {
         logEnvironmentVariables();
         String xslt = createXsltLoader().loadXslt(xsltName);
-        TopologyProducer topologyProducer = createTopologyProducer(xslt);
+        XsltTransformer.build(xslt);
+        TopologyProducer topologyProducer = createTopologyProducer();
         topologyProducer.runTopology();
 
         System.out.println("XSLT: ");
@@ -49,11 +50,6 @@ public class XsltApp {
         LOGGER.log(INFO, xslt);
     }
 
-//    @Incoming("XSLT")
-//    public void loadXslt(String xslt) {
-//
-//    }
-
     private String buildBootstrapServers() {
         return kafkaBrokerServer + ":" + kafkaBrokerPort;
     }
@@ -62,18 +58,19 @@ public class XsltApp {
         return new KafkaXsltLoader(buildBootstrapServers(), xsltKafkaTopic);
     }
 
-    private TopologyProducer createTopologyProducer(String xslt) {
-        return new TopologyProducer(buildBootstrapServers(), appName, xslt, inputKafkaTopic, outputKafkaTopic);
+    private TopologyProducer createTopologyProducer() {
+
+        return new TopologyProducer(buildBootstrapServers(), appName, inputKafkaTopic, outputKafkaTopic);
     }
 
     private void logEnvironmentVariables() {
-        System.out.println("inputKafkaTopic: " + inputKafkaTopic);
-        System.out.println("outputKafkaTopic: " + outputKafkaTopic);
-        System.out.println("xsltKafkaTopic: " + xsltKafkaTopic);
-        System.out.println("xsltName: " + xsltName);
-        System.out.println("appName: " + appName);
-        System.out.println("kafkaBrokerServer: " + kafkaBrokerServer);
-        System.out.println("kafkaBrokerPort: " + kafkaBrokerPort);
+        LOGGER.log(INFO, "inputKafkaTopic: " + inputKafkaTopic);
+        LOGGER.log(INFO, "outputKafkaTopic: " + outputKafkaTopic);
+        LOGGER.log(INFO, "xsltKafkaTopic: " + xsltKafkaTopic);
+        LOGGER.log(INFO, "xsltName: " + xsltName);
+        LOGGER.log(INFO, "appName: " + appName);
+        LOGGER.log(INFO, "kafkaBrokerServer: " + kafkaBrokerServer);
+        LOGGER.log(INFO, "kafkaBrokerPort: " + kafkaBrokerPort);
     }
 
 }

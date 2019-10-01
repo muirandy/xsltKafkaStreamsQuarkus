@@ -161,7 +161,7 @@ public class XsltTransformShould {
         return "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\">\n" +
                 "    <xsl:template match=\"/\">\n" +
                 "        <order>\n" +
-                "            <xsl:attribute name=\"orderId\">\n" +
+                "            <xsl:attribute name=\"id\">\n" +
                 "                <xsl:value-of select=\"order/orderId\"/>\n" +
                 "            </xsl:attribute>\n" +
                 "        </order>\n" +
