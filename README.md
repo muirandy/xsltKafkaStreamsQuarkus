@@ -4,7 +4,8 @@ gu install native-image
 
 # Xslt for Kafka Streams - Quarkus & Kafka Streams Implementation
 
-
+# Run
+./mvnw compile quarkus:dev -Ddebug -DENV_KEY_KAFKA_BROKER_SERVER=broker -DENV_KEY_KAFKA_BROKER_PORT=9092 -DINPUT_KAFKA_TOPIC=XML_SINK_MODIFY_VOIP_INSTRUCTIONS_WITH_SWITCH_ID -DOUTPUT_KAFKA_TOPIC=switch.modification.instructions -DXSLT_KAFKA_TOPIC=XSLT -DXSLT_NAME=cujo.xslt -DAPP_NAME=cusjoXslt
 
 ## JVM (least beneficial!)
 ### Build
