@@ -21,7 +21,7 @@ mvn package
 ### Build
 ```
 mvn package
-docker build -f src/main/docker/Dockerfile.jvm -t aytl/xslt-kafka-streams-jvm
+docker build -f src/main/docker/Dockerfile.jvm -t aytl/xslt-kafka-streams-jvm .
 ```
 
 ## Native Image on macOS

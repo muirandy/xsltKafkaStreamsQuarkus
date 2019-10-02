@@ -46,7 +46,7 @@ public class XsltTransformShould {
     private static final String KAFKA_STRING_DESERIALIZER = "org.apache.kafka.common.serialization.StringDeserializer";
     private static final String KAFKA_STRING_SERIALIZER = "org.apache.kafka.common.serialization.StringSerializer";
     @Container
-    private GenericContainer converterContainer = new GenericContainer("aytl/xslt-kafka-streams:latest")
+    private GenericContainer converterContainer = new GenericContainer("aytl/xslt-kafka-streams-jvm:latest")
             .withNetwork(KAFKA_CONTAINER.getNetwork())
             .withEnv(calculateEnvProperties())
             .waitingFor(Wait.forLogMessage(".*Stream manager initializing.*\\n", 1))
