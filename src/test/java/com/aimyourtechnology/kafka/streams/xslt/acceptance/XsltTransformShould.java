@@ -40,11 +40,13 @@ public class XsltTransformShould {
     private static final String INPUT_TOPIC = "xmlInput";
     private static final String OUTPUT_TOPIC = "xmlOutput";
     private static final String XSLT_TOPIC = "xslt";
+    private static final String ENV_KEY_KAFKA_BROKER = "KAFKA_BROKERS";
     private static final String ENV_KEY_KAFKA_BROKER_SERVER = "KAFKA_BROKER_SERVER";
     private static final String ENV_KEY_KAFKA_BROKER_PORT = "KAFKA_BROKER_PORT";
     private static final String XSLT_NAME = "template.xslt";
     private static final String KAFKA_STRING_DESERIALIZER = "org.apache.kafka.common.serialization.StringDeserializer";
     private static final String KAFKA_STRING_SERIALIZER = "org.apache.kafka.common.serialization.StringSerializer";
+
     @Container
     private GenericContainer converterContainer = new GenericContainer("aytl/xslt-kafka-streams-jvm:latest")
             .withNetwork(KAFKA_CONTAINER.getNetwork())
@@ -60,6 +62,8 @@ public class XsltTransformShould {
         String bootstrapServers = KAFKA_CONTAINER.getNetworkAliases().get(0);
         envProperties.put(ENV_KEY_KAFKA_BROKER_SERVER, bootstrapServers);
         envProperties.put(ENV_KEY_KAFKA_BROKER_PORT, "" + 9092);
+        envProperties.put(ENV_KEY_KAFKA_BROKER, bootstrapServers + ":9092");
+
         envProperties.putAll(createCustomEnvProperties());
         return envProperties;
     }

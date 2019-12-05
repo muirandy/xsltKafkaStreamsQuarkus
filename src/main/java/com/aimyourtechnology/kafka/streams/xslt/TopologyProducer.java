@@ -35,7 +35,7 @@ public class TopologyProducer {
         streams.start();
     }
 
-    private Topology buildTopology() {
+    Topology buildTopology() {
         StreamsBuilder builder = new StreamsBuilder();
 
         Function<String, String> transformer = createTransformer();
